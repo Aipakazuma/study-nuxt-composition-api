@@ -32,6 +32,8 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    // https://composition-api.nuxtjs.org
+    '@nuxtjs/composition-api/module',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -43,7 +45,7 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en',
+      lang: 'ja',
     },
   },
 
