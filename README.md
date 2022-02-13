@@ -2,6 +2,8 @@
 
 composition-api を学ぶ
 
+## install
+
 ```bash
 $ docker run --rm -v $(pwd):/app -p 80:80 --name study-nuxt -it node:17.5.0-slim /bin/bash
 
@@ -49,4 +51,12 @@ $ yarn dev --port 80
 
 # なぜかコンテナへアクセスできなかったので、hostnameを0にして再度実行
 $ yarn dev --port 80 --hostname 0
+```
+
+## composition api を学ぶ
+
+doc: https://composition-api.nuxtjs.org/getting-started/introduction
+
+```bash
+$ yarn add @nuxtjs/composition-api
 ```
