@@ -2,27 +2,27 @@ export const state = () => ({
   // TODO: child?のstoreをつくって突っ込みたいがやり方がわからない
   videos: [
     {
-      url: 'https://www.youtube.com/watch?v=y7PdiGXbrD0',
+      url: '-e5VYD6gFn4',
       like: 0,
       favorite: false,
     },
     {
-      url: 'https://www.youtube.com/watch?v=0eiMWtOgNFg',
+      url: '0eiMWtOgNFg',
       like: 0,
       favorite: false,
     },
     {
-      url: 'https://www.youtube.com/watch?v=Bdtkxc-bRLc',
+      url: 'Bdtkxc-bRLc',
       like: 0,
       favorite: false,
     },
     {
-      url: 'https://www.youtube.com/watch?v=Rrt3JkuPM4c',
+      url: 'Rrt3JkuPM4c',
       like: 0,
       favorite: false,
     },
     {
-      url: 'https://www.youtube.com/watch?v=l5Sv64Zqpv4',
+      url: 'l5Sv64Zqpv4',
       like: 0,
       favorite: false,
     },
