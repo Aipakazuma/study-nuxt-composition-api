@@ -3,22 +3,22 @@ export const state = () => ({
   videos: [
     {
       url: '-e5VYD6gFn4',
-      like: 0,
+      like: 1,
       favorite: false,
     },
     {
       url: '0eiMWtOgNFg',
-      like: 0,
+      like: 2,
       favorite: false,
     },
     {
       url: 'Bdtkxc-bRLc',
-      like: 0,
+      like: 3,
       favorite: false,
     },
     {
       url: 'Rrt3JkuPM4c',
-      like: 0,
+      like: 4,
       favorite: false,
     },
     {
@@ -29,7 +29,29 @@ export const state = () => ({
   ],
 })
 
-export const mutations = {}
+export const mutations = {
+  delLastIndex(state) {
+    state.videos.pop()
+  },
+  unshiftVideo(state, video) {
+    state.videos.unshift(video)
+  },
+}
+
+export const actions = {
+  async videoShift({ commit, state }) {
+    // TODO: 値を変更しながら且つ返り値もほしいみたいな処理を書きたい場合のbest practiceを探したい
+    return new Promise((resolve, reject) => {
+      // やりたいこと
+      // const last = videos.pop()
+      const last = state.videos.slice(-1)[0]
+      commit('delLastIndex')
+      // videos.unshift(last)
+      commit('unshiftVideo', last)
+      resolve(last)
+    })
+  },
+}
 
 export const getters = {
   getVideos(state) {
