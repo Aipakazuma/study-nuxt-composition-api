@@ -60,3 +60,33 @@ doc: https://composition-api.nuxtjs.org/getting-started/introduction
 ```bash
 $ yarn add @nuxtjs/composition-api
 ```
+
+### 学びその 1
+
+component を作って呼び出してみる.
+
+### 学びその 2
+
+まだ全然わかっていないので、なんか作ってみる.
+
+→ その上で composition api に書き換えて理解するでどうじゃろうか？
+
+#### 作るもの
+
+- Youtube の動画を先に読み込みして体験良い PWA
+- 上下左右にフリックして動画を切り替える
+  - 一旦は動画が表示されたら読み込みして表示する仕組みを考えている
+- 動画それぞれにいいねボタンとお気に入りボタンがついている
+  - お気に入りボタンを押したら LocalStorage にお気に入り動画の link が保存される
+  - いいねは store へカウントしておく
+  - いいねやお気に入りしたら解除できるボタンへ変更する
+- 左メニュー押したらお気に入り一覧が表示される
+
+- /pages/index.vue
+  - メインページ
+- /store/videos.js
+  - 動画を取得する
+- /components/LoadVideo.vue
+- /components/Menu.vue
+- /components/LikeButton.vue
+- /components/FavoriteButton.vue
