@@ -1,8 +1,6 @@
 <template>
-  <div>
+  <div class="iframe-wrapper">
     <iframe
-      width="560"
-      height="315"
       :src="'https://www.youtube.com/embed/' + video.url"
       title="YouTube video player"
       frameborder="0"
@@ -40,3 +38,22 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.iframe-wrapper {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.iframe-wrapper iframe {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 50%;
+}
+</style>
