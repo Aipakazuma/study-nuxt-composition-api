@@ -1,5 +1,11 @@
 <template>
-  <div class="iframe-wrapper">
+  <div
+    class="iframe-wrapper"
+    @touchstart="touchStart"
+    @touchmove="touchMove"
+    @touchend="touchEnd"
+    ref="swipe"
+  >
     <iframe
       :src="'https://www.youtube.com/embed/' + video.url"
       title="YouTube video player"
@@ -8,7 +14,6 @@
       allowfullscreen
     ></iframe>
     <p>{{ video.like }}</p>
-    <button @click="next">次へ</button>
   </div>
 </template>
 
@@ -18,6 +23,9 @@ export default {
   data: function () {
     return {
       video: {},
+      startX: 0,
+      moveX: 0,
+      width: 0,
     }
   },
   methods: {
@@ -30,6 +38,21 @@ export default {
           console.error(error)
         }
       )
+    },
+    touchStart(e) {
+      this.width = this.$refs.swipe.offsetWidth
+      this.startX = e.touches[0].pageX
+    },
+    touchMove(e) {
+      this.moveX = e.touches[0].pageX - this.startX
+    },
+    touchEnd() {
+      if (this.moveX > 10) {
+        console.log('右スワイプ')
+        this.next()
+      } else if (this.moveX < -10) {
+        console.log('左スワイプ')
+      }
     },
   },
   mounted() {
