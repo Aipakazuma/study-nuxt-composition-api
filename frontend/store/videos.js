@@ -2,27 +2,32 @@ export const state = () => ({
   // TODO: child?のstoreをつくって突っ込みたいがやり方がわからない
   videos: [
     {
-      url: '-e5VYD6gFn4',
+      url: 'https://www.youtube.com/embed/-e5VYD6gFn4',
       like: 1,
       favorite: false,
     },
     {
-      url: '0eiMWtOgNFg',
+      url: 'https://www.youtube.com/embed/0eiMWtOgNFg',
       like: 2,
       favorite: false,
     },
     {
-      url: 'Bdtkxc-bRLc',
+      url: 'https://www.youtube.com/embed/Bdtkxc-bRLc',
       like: 3,
       favorite: false,
     },
     {
-      url: 'Rrt3JkuPM4c',
+      url: 'https://www.youtube.com/embed/Rrt3JkuPM4c',
       like: 4,
       favorite: false,
     },
     {
-      url: 'l5Sv64Zqpv4',
+      url: 'https://www.youtube.com/embed/l5Sv64Zqpv4',
+      like: 0,
+      favorite: false,
+    },
+    {
+      url: 'https://www.dmm.co.jp/litevideo/-/part/=/cid=hjmo00475/size=1280_720/',
       like: 0,
       favorite: false,
     },
