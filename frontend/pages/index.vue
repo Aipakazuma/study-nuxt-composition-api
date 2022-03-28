@@ -1,19 +1,16 @@
 <template>
-  <div
-    class="iframe-wrapper"
-    @touchstart="touchStart"
-    @touchmove="touchMove"
-    @touchend="touchEnd"
-    ref="swipe"
-  >
-    <iframe
-      :src="video.url"
-      title="YouTube video player"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
-    ></iframe>
-    <p>{{ video.like }}</p>
+  <div>
+    <div v-for="k in this.$store.getters['videos/getVideos']" :key="k.url">
+      <iframe
+        :src="k.url"
+        rel="preload"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+      <p>{{ video.like }}</p>
+    </div>
   </div>
 </template>
 

@@ -90,3 +90,7 @@ component を作って呼び出してみる.
 - /components/Menu.vue
 - /components/LikeButton.vue
 - /components/FavoriteButton.vue
+
+#### 試し中
+
+- iframe の preload
