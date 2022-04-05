@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div v-for="k in this.$store.getters['videos/getVideos']" :key="k.url">
+    <div v-for="video in store.getters['videos/getVideos']" :key="video.url">
       <iframe
-        :src="k.url"
+        :src="video.url"
         rel="preload"
         title="YouTube video player"
         frameborder="0"
@@ -15,48 +15,68 @@
 </template>
 
 <script>
-export default {
+import {
+  defineComponent,
+  reactive,
+  onMounted,
+  useContext,
+  ref,
+} from '@nuxtjs/composition-api'
+
+export default defineComponent({
   name: 'VideoList',
-  data: function () {
-    return {
-      video: {},
-      startX: 0,
-      moveX: 0,
-      width: 0,
-    }
-  },
-  methods: {
-    next() {
-      this.$store.dispatch('videos/videoShift').then(
+  setup() {
+    const video = reactive({
+      like: 0,
+    })
+    const startX = ref(0)
+    const moveX = ref(0)
+    const width = ref(0)
+    const { store } = useContext()
+    const next = () => {
+      store.dispatch('videos/videoShift').then(
         (res) => {
-          this.video = res
+          video = res
         },
         (error) => {
           console.error(error)
         }
       )
-    },
-    touchStart(e) {
-      this.width = this.$refs.swipe.offsetWidth
-      this.startX = e.touches[0].pageX
-    },
-    touchMove(e) {
-      this.moveX = e.touches[0].pageX - this.startX
-    },
-    touchEnd() {
-      if (this.moveX > 10) {
+    }
+    const touchStart = (e) => {
+      width = this.$refs.swipe.offsetWidth
+      startX = e.touches[0].pageX
+    }
+    const touchMove = (e) => {
+      moveX = e.touches[0].pageX - startX
+    }
+    const touchEnd = () => {
+      if (moveX > 10) {
         console.log('右スワイプ')
-        this.next()
-      } else if (this.moveX < -10) {
+        next()
+      } else if (moveX < -10) {
         console.log('左スワイプ')
       }
-    },
+    }
+
+    // onMounted(() => {
+    //   const videos = store.getters['videos/getVideos']
+    //   video = videos[0]
+    // })
+
+    return {
+      store,
+      video,
+      startX,
+      moveX,
+      width,
+      next,
+      touchStart,
+      touchMove,
+      touchEnd,
+    }
   },
-  mounted() {
-    const videos = this.$store.getters['videos/getVideos']
-    this.video = videos[0]
-  },
-}
+})
 </script>
 
 <style scoped>
