@@ -1,16 +1,16 @@
 import { ref, useContext } from '@nuxtjs/composition-api'
 
-export function useTouchHandler(video) {
+export function useTouchHandler(url, like) {
   const swipe = ref(null)
-  const width = ref(0)
-  const startX = ref(0)
-  const moveX = ref(0)
+  let width = 0
+  let startX = 0
+  let moveX = 0
   const { store } = useContext()
   const next = () => {
     store.dispatch('videos/videoShift').then(
       (res) => {
-        video.url = res.url
-        video.like = res.like
+        url.value = res.url
+        like.value = res.like
       },
       (error) => {
         console.error(error)
@@ -19,19 +19,19 @@ export function useTouchHandler(video) {
   }
 
   const touchStart = (e) => {
-    width.value = swipe.offsetWidth
-    startX.value = e.touches[0].pageX
+    width = swipe.offsetWidth
+    startX = e.touches[0].pageX
   }
 
   const touchMove = (e) => {
-    moveX.value = e.touches[0].pageX - startX.value
+    moveX = e.touches[0].pageX - startX
   }
 
   const touchEnd = () => {
-    if (moveX.value > 10) {
+    if (moveX > 10) {
       console.log('右スワイプ')
       next()
-    } else if (moveX.value < -10) {
+    } else if (moveX < -10) {
       console.log('左スワイプ')
     }
   }

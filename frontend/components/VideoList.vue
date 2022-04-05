@@ -7,15 +7,8 @@
       @touchend="touchEnd"
       ref="swipe"
     >
-      <iframe
-        :src="video.url"
-        rel="preload"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
-      <p>{{ video.like }}</p>
+      <Video :url="url" />
+      <p>{{ like }}</p>
     </div>
   </div>
 </template>
@@ -23,37 +16,41 @@
 <script>
 import {
   defineComponent,
-  reactive,
+  ref,
   onMounted,
   useContext,
 } from '@nuxtjs/composition-api'
+import Video from '~/components/Video.vue'
 import { useTouchHandler } from '~/handler/TouchHandler.js'
 
-const _onMounted = (video, store) => {
+const _onMounted = (url, like, store) => {
   const videos = store.getters['videos/getVideos']
   const v = videos[0]
-  video.url = v.url
-  video.like = v.like
+  url.value = v.url
+  like.value = v.like
 }
 
 export default defineComponent({
   name: 'VideoList',
+  components: { Video },
   setup() {
-    const video = reactive({
-      url: '',
-      like: 0,
-    })
+    const url = ref('')
+    const like = ref(0)
     const { store } = useContext()
-    onMounted(() => _onMounted(video, store))
-    const { swipe, touchStart, touchMove, touchEnd } = useTouchHandler(video)
+    onMounted(() => _onMounted(url, like, store))
+    const { swipe, touchStart, touchMove, touchEnd } = useTouchHandler(
+      url,
+      like
+    )
 
     return {
       store,
-      video,
       swipe,
       touchStart,
       touchMove,
       touchEnd,
+      url,
+      like,
     }
   },
 })
