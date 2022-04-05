@@ -26,65 +26,28 @@ import {
   reactive,
   onMounted,
   useContext,
-  ref,
 } from '@nuxtjs/composition-api'
+import { useTouchHandler } from '~/handler/TouchHandler.js'
 
 export default defineComponent({
   name: 'VideoList',
   setup() {
     const video = reactive({
+      url: '',
       like: 0,
     })
-    const swipe = ref(null)
-    const startX = ref(0)
-    const moveX = ref(0)
-    const width = ref(0)
     const { store } = useContext()
-    const next = () => {
-      store.dispatch('videos/videoShift').then(
-        (res) => {
-          video.url = res.url
-          video.like = res.like
-        },
-        (error) => {
-          console.error(error)
-        }
-      )
-    }
-
-    const touchStart = (e) => {
-      width.value = swipe.offsetWidth
-      startX.value = e.touches[0].pageX
-    }
-
-    const touchMove = (e) => {
-      moveX.value = e.touches[0].pageX - startX.value
-    }
-
-    const touchEnd = () => {
-      if (moveX.value > 10) {
-        console.log('右スワイプ')
-        next()
-      } else if (moveX.value < -10) {
-        console.log('左スワイプ')
-      }
-    }
-
     onMounted(() => {
       const videos = store.getters['videos/getVideos']
       const v = videos[0]
       video.url = v.url
       video.like = v.like
     })
+    const { touchStart, touchMove, touchEnd } = useTouchHandler(video)
 
     return {
-      swipe,
       store,
       video,
-      startX,
-      moveX,
-      width,
-      next,
       touchStart,
       touchMove,
       touchEnd,
