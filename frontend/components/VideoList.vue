@@ -29,6 +29,13 @@ import {
 } from '@nuxtjs/composition-api'
 import { useTouchHandler } from '~/handler/TouchHandler.js'
 
+const _onMounted = (video, store) => {
+  const videos = store.getters['videos/getVideos']
+  const v = videos[0]
+  video.url = v.url
+  video.like = v.like
+}
+
 export default defineComponent({
   name: 'VideoList',
   setup() {
@@ -37,17 +44,13 @@ export default defineComponent({
       like: 0,
     })
     const { store } = useContext()
-    onMounted(() => {
-      const videos = store.getters['videos/getVideos']
-      const v = videos[0]
-      video.url = v.url
-      video.like = v.like
-    })
-    const { touchStart, touchMove, touchEnd } = useTouchHandler(video)
+    onMounted(() => _onMounted(video, store))
+    const { swipe, touchStart, touchMove, touchEnd } = useTouchHandler(video)
 
     return {
       store,
       video,
+      swipe,
       touchStart,
       touchMove,
       touchEnd,

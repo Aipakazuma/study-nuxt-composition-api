@@ -37,6 +37,7 @@ export function useTouchHandler(video) {
   }
 
   return {
+    swipe,
     touchStart,
     touchMove,
     touchEnd,
