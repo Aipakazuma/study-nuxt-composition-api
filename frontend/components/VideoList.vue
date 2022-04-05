@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, useContext } from '@nuxtjs/composition-api'
+import { defineComponent, useContext } from '@nuxtjs/composition-api'
 import Video from '~/components/Video.vue'
 import { useTouchHandler } from '~/handler/TouchHandler.js'
 
@@ -24,8 +24,6 @@ export default defineComponent({
   name: 'VideoList',
   components: { Video },
   setup() {
-    const url = ref('')
-    const like = ref(0)
     const { store } = useContext()
     const { swipe, touchStart, touchMove, touchEnd } = useTouchHandler()
 
@@ -35,8 +33,6 @@ export default defineComponent({
       touchStart,
       touchMove,
       touchEnd,
-      url,
-      like,
     }
   },
 })
