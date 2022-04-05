@@ -31,6 +31,16 @@ export const state = () => ({
       like: 0,
       favorite: false,
     },
+    {
+      url: 'https://www.xvideos.com/embedframe/34455359',
+      like: 10,
+      favorite: false,
+    },
+    {
+      url: 'https://www.xvideos.com/embedframe/40691309',
+      like: 20,
+      favorite: false,
+    },
   ],
   targetIndexes: [0, 1, 2],
 })
