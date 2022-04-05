@@ -7,12 +7,12 @@ export const state = () => ({
       favorite: false,
     },
     {
-      url: 'https://www.youtube.com/embed/0eiMWtOgNFg',
+      url: 'https://www.youtube.com/embed/TES-LcICwy0',
       like: 2,
       favorite: false,
     },
     {
-      url: 'https://www.youtube.com/embed/Bdtkxc-bRLc',
+      url: 'https://www.youtube.com/embed/qoKaSBW1rHs',
       like: 3,
       favorite: false,
     },
@@ -52,7 +52,7 @@ export const mutations = {
 export const actions = {
   async videoShift({ commit, state }) {
     return new Promise((resolve, reject) => {
-      commit('unshiftIndexes2')
+      commit('unshiftIndexes')
     })
   },
 }
