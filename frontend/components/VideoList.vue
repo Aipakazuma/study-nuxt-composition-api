@@ -1,6 +1,12 @@
 <template>
   <div>
-    <div v-for="video in store.getters['videos/getVideos']" :key="video.url">
+    <div
+      class="iframe-wrapper"
+      @touchstart="touchStart"
+      @touchmove="touchMove"
+      @touchend="touchEnd"
+      ref="swipe"
+    >
       <iframe
         :src="video.url"
         rel="preload"
@@ -29,6 +35,7 @@ export default defineComponent({
     const video = reactive({
       like: 0,
     })
+    const swipe = ref(null)
     const startX = ref(0)
     const moveX = ref(0)
     const width = ref(0)
@@ -36,35 +43,42 @@ export default defineComponent({
     const next = () => {
       store.dispatch('videos/videoShift').then(
         (res) => {
-          video = res
+          video.url = res.url
+          video.like = res.like
         },
         (error) => {
           console.error(error)
         }
       )
     }
+
     const touchStart = (e) => {
-      width = this.$refs.swipe.offsetWidth
-      startX = e.touches[0].pageX
+      width.value = swipe.offsetWidth
+      startX.value = e.touches[0].pageX
     }
+
     const touchMove = (e) => {
-      moveX = e.touches[0].pageX - startX
+      moveX.value = e.touches[0].pageX - startX.value
     }
+
     const touchEnd = () => {
-      if (moveX > 10) {
+      if (moveX.value > 10) {
         console.log('右スワイプ')
         next()
-      } else if (moveX < -10) {
+      } else if (moveX.value < -10) {
         console.log('左スワイプ')
       }
     }
 
-    // onMounted(() => {
-    //   const videos = store.getters['videos/getVideos']
-    //   video = videos[0]
-    // })
+    onMounted(() => {
+      const videos = store.getters['videos/getVideos']
+      const v = videos[0]
+      video.url = v.url
+      video.like = v.like
+    })
 
     return {
+      swipe,
       store,
       video,
       startX,
