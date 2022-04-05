@@ -2,6 +2,12 @@
 
 composition-api を学ぶ
 
+## run
+
+```bash
+$ bash bin/run.sh
+```
+
 ## install
 
 ```bash
