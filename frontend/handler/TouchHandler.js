@@ -1,21 +1,13 @@
 import { ref, useContext } from '@nuxtjs/composition-api'
 
-export function useTouchHandler(url, like) {
+export function useTouchHandler() {
   const swipe = ref(null)
   let width = 0
   let startX = 0
   let moveX = 0
   const { store } = useContext()
   const next = () => {
-    store.dispatch('videos/videoShift').then(
-      (res) => {
-        url.value = res.url
-        like.value = res.like
-      },
-      (error) => {
-        console.error(error)
-      }
-    )
+    store.dispatch('videos/videoShift2')
   }
 
   const touchStart = (e) => {

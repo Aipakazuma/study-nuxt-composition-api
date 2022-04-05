@@ -32,6 +32,7 @@ export const state = () => ({
       favorite: false,
     },
   ],
+  targetIndexes: [0, 1, 2],
 })
 
 export const mutations = {
@@ -40,6 +41,17 @@ export const mutations = {
   },
   unshiftVideo(state, video) {
     state.videos.unshift(video)
+  },
+  unshiftIndexes2(state) {
+    const n = 3
+    const s = state.targetIndexes
+      .map((v) => v + 1) // increment
+      .filter((v) => v < state.videos.length) // 要素数を超える場合は除外
+    if (s.length < n) {
+      s.unshift(0) // 除外した分を追加
+    }
+    console.log(s)
+    state.targetIndexes = s
   },
 }
 
@@ -56,10 +68,19 @@ export const actions = {
       resolve(last)
     })
   },
+  async videoShift2({ commit, state }) {
+    return new Promise((resolve, reject) => {
+      commit('unshiftIndexes2')
+    })
+  },
 }
 
 export const getters = {
   getVideos(state) {
     return state.videos
+  },
+  getVideosN: (state) => (n) => {
+    console.log(n)
+    return state.targetIndexes.map((index) => state.videos[index])
   },
 }
