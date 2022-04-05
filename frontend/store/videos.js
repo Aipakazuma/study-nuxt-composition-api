@@ -36,13 +36,7 @@ export const state = () => ({
 })
 
 export const mutations = {
-  delLastIndex(state) {
-    state.videos.pop()
-  },
-  unshiftVideo(state, video) {
-    state.videos.unshift(video)
-  },
-  unshiftIndexes2(state) {
+  unshiftIndexes(state) {
     const n = 3
     const s = state.targetIndexes
       .map((v) => v + 1) // increment
@@ -57,18 +51,6 @@ export const mutations = {
 
 export const actions = {
   async videoShift({ commit, state }) {
-    // TODO: 値を変更しながら且つ返り値もほしいみたいな処理を書きたい場合のbest practiceを探したい
-    return new Promise((resolve, reject) => {
-      // やりたいこと
-      // const last = videos.pop()
-      const last = state.videos.slice(-1)[0]
-      commit('delLastIndex')
-      // videos.unshift(last)
-      commit('unshiftVideo', last)
-      resolve(last)
-    })
-  },
-  async videoShift2({ commit, state }) {
     return new Promise((resolve, reject) => {
       commit('unshiftIndexes2')
     })

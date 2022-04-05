@@ -16,12 +16,7 @@
 </template>
 
 <script>
-import {
-  defineComponent,
-  ref,
-  onMounted,
-  useContext,
-} from '@nuxtjs/composition-api'
+import { defineComponent, ref, useContext } from '@nuxtjs/composition-api'
 import Video from '~/components/Video.vue'
 import { useTouchHandler } from '~/handler/TouchHandler.js'
 

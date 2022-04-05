@@ -7,7 +7,7 @@ export function useTouchHandler() {
   let moveX = 0
   const { store } = useContext()
   const next = () => {
-    store.dispatch('videos/videoShift2')
+    store.dispatch('videos/videoShift')
   }
 
   const touchStart = (e) => {
