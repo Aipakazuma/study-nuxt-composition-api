@@ -1,15 +1,36 @@
+const appTitle = '流し動画'
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'frontend',
+    title: appTitle,
+    script: [
+      {
+        innerHTML: `
+        if (('standalone' in navigator) && (!navigator.standalone)) {
+          import('https://unpkg.com/pwacompat');
+        }
+        `,
+      },
+    ],
+    __dangerouslyDisableSanitizers: ['script'],
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {
+        name: 'viewport',
+        content:
+          'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui',
+      },
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
+      { name: 'apple-mobile-web-app-capable', content: 'yes' },
+      {
+        name: 'apple-mobile-web-app-status-bar-style',
+        content: 'black-translucent',
+      },
+      { name: 'apple-mobile-web-app-title', content: appTitle },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
@@ -48,7 +69,27 @@ export default {
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
+    meta: {
+      mobileApp: true,
+      mobileAppIOS: false,
+      appleStatusBarStyle: 'black-translucent',
+      nativeUI: true,
+      name: appTitle,
+      title: appTitle,
+      'og:title': appTitle,
+      description: appTitle,
+      'og:description': appTitle,
+      lang: 'ja',
+      display: 'standalone',
+      scope: '/',
+      start_url: '/',
+    },
     manifest: {
+      name: appTitle,
+      short_name: appTitle,
+      orientation: 'portrait',
+      theme_color: '#FF0000', // 起動時のスプラッシュ画面の背景色
+      background_color: '#FF0000', // 画面の上にあるステータスバーの色
       lang: 'ja',
     },
     workbox: {
