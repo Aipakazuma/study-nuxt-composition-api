@@ -4,42 +4,34 @@ export const state = () => ({
     {
       url: 'https://www.youtube.com/embed/-e5VYD6gFn4',
       like: 1,
-      favorite: false,
     },
     {
       url: 'https://www.youtube.com/embed/TES-LcICwy0',
       like: 2,
-      favorite: false,
     },
     {
       url: 'https://www.youtube.com/embed/qoKaSBW1rHs',
-      like: 3,
-      favorite: false,
+      like: 3333,
     },
     {
       url: 'https://www.youtube.com/embed/Rrt3JkuPM4c',
-      like: 4,
-      favorite: false,
+      like: '424k',
     },
     {
       url: 'https://www.youtube.com/embed/l5Sv64Zqpv4',
       like: 0,
-      favorite: false,
     },
     {
       url: 'https://www.dmm.co.jp/litevideo/-/part/=/cid=hjmo00475/size=1280_720/',
       like: 0,
-      favorite: false,
     },
     {
       url: 'https://www.xvideos.com/embedframe/34455359',
       like: 10,
-      favorite: false,
     },
     {
       url: 'https://www.xvideos.com/embedframe/40691309',
       like: 20,
-      favorite: false,
     },
   ],
   targetIndexes: [0, 1, 2],
