@@ -55,7 +55,8 @@
 </template>
 
 <script>
-export default {
+import { defineComponent, ref, toRefs, watch } from '@nuxtjs/composition-api'
+export default defineComponent({
   model: {
     prop: 'modal',
     event: 'change-modal',
@@ -106,109 +107,131 @@ export default {
       default: 'black',
     },
   },
-  data() {
+  setup(props, context) {
+    const isMouseDown = ref(false)
+    const isTouch = ref(false)
+    const modalQuery = ref(null)
+    const modalHeight = ref(0)
+    const contentsBottomPosition = ref(0)
+    const startMovePosition = ref(0)
+    const nowMovePosition = ref(0)
+    const moveStartPosition = ref(0)
+    const { modal } = toRefs(props)
+
+    const init = () => {
+      isMouseDown.value = false
+      isTouch.value = false
+      modalQuery.value = null
+      modalHeight.value = 0
+      contentsBottomPosition.value = 0
+      startMovePosition.value = 0
+      nowMovePosition.value = 0
+    }
+
+    const open = () => {
+      init()
+      document.documentElement.style.overflowY = 'hidden'
+    }
+
+    const close = () => {
+      isMouseDown.value = false
+      isTouch.value = false
+      document.documentElement.style.overflowY = 'auto'
+      context.emit('change-modal', false)
+    }
+
+    const touchStart = (e) => {
+      modalQuery.value = document.querySelector('.modal_contents')
+      modalHeight.value = modalQuery.value.getBoundingClientRect().height
+      if (modalQuery.value.scrollTop <= 0) {
+        moveStartPosition.value = e.touches[0].pageY
+        isTouch.value = true
+      }
+    }
+    const touchMove = (e) => {
+      if (isTouch.value) {
+        nowMovePosition.value = e.touches[0].pageY
+        if (moveStartPosition.value - nowMovePosition.value <= 0) {
+          contentsBottomPosition.value =
+            moveStartPosition.value - nowMovePosition.value
+        } else {
+          contentsBottomPosition.value = 0 + 'px'
+        }
+        contentsBottomPosition.value =
+          (moveStartPosition.value - nowMovePosition.value <= 0
+            ? moveStartPosition.value - nowMovePosition.value
+            : 0) + 'px'
+      }
+    }
+    const touchEnd = () => {
+      isTouch.value = false
+      if (
+        -1 * (moveStartPosition.value - nowMovePosition.value) >
+        modalHeight.value * (1 / 8)
+      ) {
+        close()
+      } else {
+        contentsBottomPosition.value = 0 + 'px'
+      }
+    }
+
+    const mouseUp = () => {
+      isMouseDown.value = false
+      if (
+        -1 * (moveStartPosition.value - nowMovePosition.value) >
+        modalHeight.value * (1 / 8)
+      ) {
+        close()
+      } else {
+        contentsBottomPosition.value = 0 + 'px'
+      }
+    }
+
+    const mouseMove = (e) => {
+      if (isMouseDown.value) {
+        nowMovePosition.value = e.pageY
+        contentsBottomPosition.value =
+          (moveStartPosition.value - nowMovePosition.value <= 0
+            ? moveStartPosition.value - nowMovePosition.value
+            : 0) + 'px'
+      }
+    }
+
+    const mouseDown = (e) => {
+      modalQuery.value = document.querySelector('.modal_contents')
+      modalHeight.value = modalQuery.value.getBoundingClientRect().height
+      moveStartPosition.value = e.pageY
+      isMouseDown.value = true
+      close()
+    }
+
+    watch(
+      () => modal,
+      (newModal, oldModal) => {
+        if (newModal) {
+          open()
+        }
+      }
+    )
+
     return {
-      isMouseDown: false,
-      isTouch: false,
-      modalQuery: null,
-      modalHeight: 0,
-      contentsBottomPosition: 0,
-      startMovePosition: 0,
-      nowMovePosition: 0,
+      isMouseDown,
+      isTouch,
+      modalQuery,
+      modalHeight,
+      contentsBottomPosition,
+      startMovePosition,
+      nowMovePosition,
+      touchStart,
+      touchMove,
+      touchEnd,
+      mouseUp,
+      mouseMove,
+      mouseDown,
+      close,
     }
   },
-  watch: {
-    modal(newmodal) {
-      if (newmodal) {
-        this.open()
-      }
-    },
-  },
-  methods: {
-    // anim
-    open() {
-      this.init()
-      document.documentElement.style.overflowY = 'hidden'
-    },
-    close() {
-      this.isMouseDown = false
-      this.isTouch = false
-      document.documentElement.style.overflowY = 'auto'
-      this.$emit('change-modal', false)
-    },
-    // track
-    init() {
-      this.isMouseDown = false
-      this.isTouch = false
-      this.modalQuery = null
-      this.modalHeight = 0
-      this.contentsBottomPosition = 0
-      this.startMovePosition = 0
-      this.nowMovePosition = 0
-    },
-    touchStart(e) {
-      this.modalQuery = document.querySelector('.modal_contents')
-      this.modalHeight = this.modalQuery.getBoundingClientRect().height
-      if (this.modalQuery.scrollTop <= 0) {
-        this.moveStartPosition = e.touches[0].pageY
-        this.isTouch = true
-      }
-    },
-    touchMove(e) {
-      if (this.isTouch) {
-        this.nowMovePosition = e.touches[0].pageY
-        if (this.moveStartPosition - this.nowMovePosition <= 0) {
-          this.contentsBottomPosition =
-            this.moveStartPosition - this.nowMovePosition
-        } else {
-          this.contentsBottomPosition = 0 + 'px'
-        }
-        this.contentsBottomPosition =
-          (this.moveStartPosition - this.nowMovePosition <= 0
-            ? this.moveStartPosition - this.nowMovePosition
-            : 0) + 'px'
-      }
-    },
-    touchEnd() {
-      this.isTouch = false
-      if (
-        -1 * (this.moveStartPosition - this.nowMovePosition) >
-        this.modalHeight * (1 / 8)
-      ) {
-        this.close()
-      } else {
-        this.contentsBottomPosition = 0 + 'px'
-      }
-    },
-    mouseDown(e) {
-      this.modalQuery = document.querySelector('.modal_contents')
-      this.modalHeight = this.modalQuery.getBoundingClientRect().height
-      this.moveStartPosition = e.pageY
-      this.isMouseDown = true
-      this.close()
-    },
-    mouseMove(e) {
-      if (this.isMouseDown) {
-        this.nowMovePosition = e.pageY
-        this.contentsBottomPosition =
-          (this.moveStartPosition - this.nowMovePosition <= 0
-            ? this.moveStartPosition - this.nowMovePosition
-            : 0) + 'px'
-      }
-    },
-    mouseUp() {
-      this.isMouseDown = false
-      if (
-        -1 * (this.moveStartPosition - this.nowMovePosition) >
-        this.modalHeight * (1 / 8)
-      ) {
-        this.close()
-      } else {
-        this.contentsBottomPosition = 0 + 'px'
-      }
-    },
-  },
-}
+})
 </script>
 
 <style lang="scss">
