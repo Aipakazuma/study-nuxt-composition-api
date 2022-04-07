@@ -28,7 +28,7 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [],
+  buildModules: ['nuxt-vite'],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -51,10 +51,21 @@ export default {
     manifest: {
       lang: 'ja',
     },
+    workbox: {
+      enabled: false,
+      dev: false,
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: [/^element-ui/],
+  },
+  vite: {
+    server: {
+      hmr: {
+        protocol: 'ws',
+      },
+    },
   },
 }
