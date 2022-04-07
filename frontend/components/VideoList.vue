@@ -63,8 +63,6 @@ iframe {
   bottom: 15%;
   color: #fff;
   list-style: none;
-  /* text-shadow: black 1px 1px 10px, black -1px 1px 10px, black 1px -1px 10px, */
-  /* black -1px -1px 10px; */
   text-shadow: 0 1px 3px #000;
 }
 .actions > li:nth-child(1) {
