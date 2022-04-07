@@ -38,6 +38,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.wrapper::-webkit-scrollbar {
+  display: none;
+}
 .wrapper {
   width: 100%; /* 適度な幅を指定 */
   height: 100vh; /* 適度な高さを指定 */
