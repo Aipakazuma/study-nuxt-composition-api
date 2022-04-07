@@ -1,9 +1,20 @@
 <template>
   <div>
-    <div class="iframe-wrapper">
+    <div class="wrapper">
       <div v-for="v in store.getters['videos/getVideos']" :key="v.url">
-        <Video :url="v.url" />
-        <p>{{ v.like }}</p>
+        <div class="iframe-wrapper">
+          <Video :url="v.url" />
+          <ul class="actions">
+            <li>
+              <i class="el-icon-star-on"></i>
+              <span>{{ v.like }}</span>
+            </li>
+            <li>
+              <i class="el-icon-view"></i>
+              <span>{{ v.like }}</span>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -27,30 +38,46 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.iframe-wrapper {
+.wrapper {
   width: 100%; /* 適度な幅を指定 */
   height: 100vh; /* 適度な高さを指定 */
   scroll-snap-type: y mandatory; /* スクロールスナップの指定 */
   overflow: scroll; /* はみ出た部分をスクロールできる要素にする */
 }
 
-.iframe-wrapper div {
+.wrapper .iframe-wrapper {
   scroll-snap-align: start; /* スクロールスナップの指定 */
   width: 100%; /* 適度な幅を指定 */
   height: 100vh; /* 適度な高さを指定 */
-  text-align: center; /* 文字を左右中央にするため */
-  line-height: 100vh; /* 文字を上下中央にするため */
-}
-
-.iframe-wrapper div:nth-of-type(even) {
-  background: #ccc; /* 偶数番の背景色 */
-}
-.iframe-wrapper div:nth-of-type(odd) {
-  background: #aaa; /* 奇数番の背景色 */
+  position: relative;
 }
 
 iframe {
   width: 100%;
   height: 100%;
+}
+
+.actions {
+  position: absolute;
+  right: 2%;
+  bottom: 15%;
+  color: #fff;
+  list-style: none;
+  /* text-shadow: black 1px 1px 10px, black -1px 1px 10px, black 1px -1px 10px, */
+  /* black -1px -1px 10px; */
+  text-shadow: 0 1px 3px #000;
+}
+.actions > li:nth-child(1) {
+  margin-bottom: 10px;
+}
+.actions > li > * {
+  display: block;
+}
+.actions > li > i {
+  font-size: 36px;
+}
+.actions > li > span {
+  font-size: 12px;
+  text-align: center;
 }
 </style>
