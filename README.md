@@ -8,6 +8,11 @@ composition-api を学ぶ
 $ bash bin/run.sh
 ```
 
+## 使ってるもの
+
+- https://vue-swipe-modal.vercel.app/
+  - これ本体はなぜか yarn でインストールできんかったので、github からコピペ
+
 ## install
 
 ```bash
