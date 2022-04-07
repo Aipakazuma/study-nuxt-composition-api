@@ -8,19 +8,24 @@
       contents-width="100%"
       border-top-radius="20px"
     >
-      <el-menu
-        default-active="2"
-        class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose"
-      >
+      <el-menu id="menu">
+        <el-menu-item index="0">
+          <a @click="movePage('/')">
+            <i class="el-icon-s-home"></i>
+            <span>Top</span>
+          </a>
+        </el-menu-item>
         <el-menu-item index="1">
-          <i class="el-icon-document"></i>
-          <span>About</span>
+          <a @click="movePage('/about')">
+            <i class="el-icon-document"></i>
+            <span>About</span>
+          </a>
         </el-menu-item>
         <el-menu-item index="2">
-          <i class="el-icon-user"></i>
-          <span>Contact</span>
+          <a @click="movePage('/contact')">
+            <i class="el-icon-user"></i>
+            <span>Contact</span>
+          </a>
         </el-menu-item>
       </el-menu>
     </SwipeModal>
@@ -28,18 +33,25 @@
 </template>
 
 <script>
-import { ref } from '@nuxtjs/composition-api'
+import { ref, useRouter } from '@nuxtjs/composition-api'
 import SwipeModal from '../components/SwipeModal.vue'
 export default {
-  components: [SwipeModal],
+  components: { SwipeModal },
   setup() {
+    const router = useRouter()
     const modal = ref(false)
     const menuClick = () => {
       modal.value = true
     }
+    const movePage = (link) => {
+      console.log(link)
+      router.push(link)
+      modal.value = false
+    }
     return {
       modal,
       menuClick,
+      movePage,
     }
   },
 }
@@ -48,6 +60,9 @@ export default {
 <style scoped>
 #body {
   position: relative;
+}
+#menu a {
+  display: block;
 }
 .menu-button {
   position: absolute;
