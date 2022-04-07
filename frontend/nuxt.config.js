@@ -65,6 +65,7 @@ export default {
     server: {
       hmr: {
         protocol: 'ws',
+        port: 81,
       },
     },
   },
