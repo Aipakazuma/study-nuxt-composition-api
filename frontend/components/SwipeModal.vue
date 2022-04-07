@@ -117,15 +117,6 @@ export default {
       nowMovePosition: 0,
     }
   },
-  computed: {
-    // TO-DO: バックイベント時にモーダルを閉じるようにする
-    /* isOpen () {
-      const name = 'a'
-      const isOpen = this.$route.query.eval(name)
-      console.log(isOpen)
-      return isOpen === 'true' ? true : false
-    }, */
-  },
   watch: {
     modal(newmodal) {
       if (newmodal) {
@@ -194,6 +185,7 @@ export default {
       this.modalHeight = this.modalQuery.getBoundingClientRect().height
       this.moveStartPosition = e.pageY
       this.isMouseDown = true
+      this.close()
     },
     mouseMove(e) {
       if (this.isMouseDown) {
@@ -240,7 +232,7 @@ export default {
   position: fixed;
   z-index: 2;
   min-height: var(--contents-height);
-  max-height: 100vh;
+  max-height: 97vh;
   bottom: var(--contents-bottom-position);
   left: 50%;
   transform: translateX(-50%) translateY(0%);

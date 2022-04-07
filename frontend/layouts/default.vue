@@ -2,7 +2,12 @@
   <div id="body">
     <Nuxt />
     <i class="el-icon-menu menu-button" @click="menuClick"></i>
-    <SwipeModal v-model="modal" border-top-radius="24px" contents-height="50vh">
+    <SwipeModal
+      v-model="modal"
+      contents-height="80vh"
+      contents-width="100%"
+      border-top-radius="20px"
+    >
       <div style="padding: 24px">
         <div v-for="i in 100" :key="i">
           {{ i }}
