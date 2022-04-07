@@ -4,15 +4,25 @@
     <i class="el-icon-menu menu-button" @click="menuClick"></i>
     <SwipeModal
       v-model="modal"
-      contents-height="80vh"
+      contents-height="97vh"
       contents-width="100%"
       border-top-radius="20px"
     >
-      <div style="padding: 24px">
-        <div v-for="i in 100" :key="i">
-          {{ i }}
-        </div>
-      </div>
+      <el-menu
+        default-active="2"
+        class="el-menu-vertical-demo"
+        @open="handleOpen"
+        @close="handleClose"
+      >
+        <el-menu-item index="1">
+          <i class="el-icon-document"></i>
+          <span>About</span>
+        </el-menu-item>
+        <el-menu-item index="2">
+          <i class="el-icon-user"></i>
+          <span>Contact</span>
+        </el-menu-item>
+      </el-menu>
     </SwipeModal>
   </div>
 </template>
