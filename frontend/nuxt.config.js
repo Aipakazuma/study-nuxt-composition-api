@@ -72,7 +72,7 @@ export default {
     meta: {
       mobileApp: true,
       mobileAppIOS: false,
-      appleStatusBarStyle: 'black-translucent',
+      appleStatusBarStyle: 'default',
       nativeUI: true,
       name: appTitle,
       title: appTitle,
