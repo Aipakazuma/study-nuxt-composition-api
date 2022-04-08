@@ -38,26 +38,25 @@ export function useSwipeHandler(context) {
       isTouch.value = true
     }
   }
+
+  const diff = () => {
+    return moveStartPosition - nowMovePosition.value
+  }
+
   const touchMove = (e) => {
     if (isTouch.value) {
       nowMovePosition.value = e.touches[0].pageY
-      if (moveStartPosition - nowMovePosition.value <= 0) {
-        contentsBottomPosition.value = moveStartPosition - nowMovePosition.value
+      if (diff() <= 0) {
+        contentsBottomPosition.value = diff()
       } else {
         contentsBottomPosition.value = 0 + 'px'
       }
-      contentsBottomPosition.value =
-        (moveStartPosition - nowMovePosition.value <= 0
-          ? moveStartPosition - nowMovePosition.value
-          : 0) + 'px'
+      contentsBottomPosition.value = (diff() <= 0 ? diff() : 0) + 'px'
     }
   }
   const judgeClose = (isUserAction) => {
     isUserAction.value = false
-    if (
-      -1 * (moveStartPosition - nowMovePosition.value) >
-      modalHeight.value * (1 / 8)
-    ) {
+    if (-1 * diff() > modalHeight.value * (1 / 8)) {
       close()
     } else {
       contentsBottomPosition.value = 0 + 'px'
@@ -75,10 +74,7 @@ export function useSwipeHandler(context) {
   const mouseMove = (e) => {
     if (isMouseDown.value) {
       nowMovePosition.value = e.pageY
-      contentsBottomPosition.value =
-        (moveStartPosition - nowMovePosition.value <= 0
-          ? moveStartPosition - nowMovePosition.value
-          : 0) + 'px'
+      contentsBottomPosition.value = (diff() <= 0 ? diff() : 0) + 'px'
     }
   }
 
