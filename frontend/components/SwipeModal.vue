@@ -101,7 +101,6 @@ export default defineComponent({
     const modalQuery = ref(null)
     const modalHeight = ref(0)
     const contentsBottomPosition = ref(0)
-    const startMovePosition = ref(0)
     const nowMovePosition = ref(0)
     const {
       modal,
@@ -122,7 +121,6 @@ export default defineComponent({
       modalQuery.value = null
       modalHeight.value = 0
       contentsBottomPosition.value = '0px'
-      startMovePosition.value = 0
       nowMovePosition.value = 0
     }
 
@@ -242,7 +240,6 @@ export default defineComponent({
       isTouch,
       modalQuery,
       contentsBottomPosition,
-      startMovePosition,
       nowMovePosition,
       touchStart,
       touchMove,
