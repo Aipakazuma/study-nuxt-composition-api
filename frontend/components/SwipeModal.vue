@@ -163,8 +163,8 @@ export default defineComponent({
             : 0) + 'px'
       }
     }
-    const touchEnd = () => {
-      isTouch.value = false
+    const judgeClose = (isUserAction) => {
+      isUserAction.value = false
       if (
         -1 * (moveStartPosition - nowMovePosition.value) >
         modalHeight.value * (1 / 8)
@@ -175,16 +175,12 @@ export default defineComponent({
       }
     }
 
+    const touchEnd = () => {
+      judgeClose(isTouch)
+    }
+
     const mouseUp = () => {
-      isMouseDown.value = false
-      if (
-        -1 * (moveStartPosition - nowMovePosition.value) >
-        modalHeight.value * (1 / 8)
-      ) {
-        close()
-      } else {
-        contentsBottomPosition.value = 0 + 'px'
-      }
+      judgeClose(isMouseDown)
     }
 
     const mouseMove = (e) => {
