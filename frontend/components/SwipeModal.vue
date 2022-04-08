@@ -17,23 +17,11 @@
         class="modal_contents"
         :style="{
           width: contentsWidth,
-          '--contents-height': fullscreen
-            ? '100%'
-            : modalHeight > 0
-            ? modalHeight + 'px'
-            : contentsHeight,
-          borderTopLeftRadius: fullscreen
-            ? '0px'
-            : borderTopRadius
-            ? borderTopRadius
-            : borderTopLeftRadius,
-          borderTopRightRadius: fullscreen
-            ? '0px'
-            : borderTopRadius
-            ? borderTopRadius
-            : borderTopRightRadius,
-          backgroundColor: dark ? darkContentsColor : contentsColor,
-          color: dark ? 'white' : 'back',
+          '--contents-height': getContentsHeight(),
+          borderTopLeftRadius: getBorderTopLeftRadius(),
+          borderTopRightRadius: getBorderTopRightRadius(),
+          backgroundColor: getBackgroundColor(),
+          color: getColor(),
           '--contents-bottom-position': contentsBottomPosition,
         }"
         @touchstart="touchStart"
@@ -115,7 +103,17 @@ export default defineComponent({
     const contentsBottomPosition = ref(0)
     const startMovePosition = ref(0)
     const nowMovePosition = ref(0)
-    const { modal } = toRefs(props)
+    const {
+      modal,
+      dark,
+      fullscreen,
+      contentsHeight,
+      borderTopRadius,
+      borderTopLeftRadius,
+      borderTopRightRadius,
+      contentsColor,
+      darkContentsColor,
+    } = toRefs(props)
     let moveStartPosition = 0
 
     const init = () => {
@@ -201,8 +199,39 @@ export default defineComponent({
       close()
     }
 
+    const getContentsHeight = () => {
+      return fullscreen.value
+        ? '100%'
+        : modalHeight.value > 0
+        ? modalHeight.value + 'px'
+        : contentsHeight.value
+    }
+
+    const getBorderTopLeftRadius = () => {
+      return fullscreen.value
+        ? '0px'
+        : borderTopRadius.value
+        ? borderTopRadius.value
+        : borderTopLeftRadius.value
+    }
+
+    const getBorderTopRightRadius = () => {
+      return fullscreen.value
+        ? '0px'
+        : borderTopRadius.value
+        ? borderTopRadius.value
+        : borderTopRightRadius.value
+    }
+
+    const getBackgroundColor = () => {
+      return dark.value ? darkContentsColor.value : contentsColor.value
+    }
+
+    const getColor = () => {
+      return dark.value ? 'white' : 'back'
+    }
+
     watch(modal, (newModal, oldModal) => {
-      console.log(newModal)
       if (newModal) {
         open()
       }
@@ -212,7 +241,6 @@ export default defineComponent({
       isMouseDown,
       isTouch,
       modalQuery,
-      modalHeight,
       contentsBottomPosition,
       startMovePosition,
       nowMovePosition,
@@ -223,6 +251,11 @@ export default defineComponent({
       mouseMove,
       mouseDown,
       close,
+      getContentsHeight,
+      getBorderTopLeftRadius,
+      getBorderTopRightRadius,
+      getBackgroundColor,
+      getColor,
     }
   },
 })
