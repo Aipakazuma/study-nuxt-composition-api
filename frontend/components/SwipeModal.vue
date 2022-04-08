@@ -115,15 +115,15 @@ export default defineComponent({
     const contentsBottomPosition = ref(0)
     const startMovePosition = ref(0)
     const nowMovePosition = ref(0)
-    const moveStartPosition = ref(0)
     const { modal } = toRefs(props)
+    let moveStartPosition = 0
 
     const init = () => {
       isMouseDown.value = false
       isTouch.value = false
       modalQuery.value = null
       modalHeight.value = 0
-      contentsBottomPosition.value = 0
+      contentsBottomPosition.value = '0px'
       startMovePosition.value = 0
       nowMovePosition.value = 0
     }
@@ -144,29 +144,29 @@ export default defineComponent({
       modalQuery.value = document.querySelector('.modal_contents')
       modalHeight.value = modalQuery.value.getBoundingClientRect().height
       if (modalQuery.value.scrollTop <= 0) {
-        moveStartPosition.value = e.touches[0].pageY
+        moveStartPosition = e.touches[0].pageY
         isTouch.value = true
       }
     }
     const touchMove = (e) => {
       if (isTouch.value) {
         nowMovePosition.value = e.touches[0].pageY
-        if (moveStartPosition.value - nowMovePosition.value <= 0) {
+        if (moveStartPosition - nowMovePosition.value <= 0) {
           contentsBottomPosition.value =
-            moveStartPosition.value - nowMovePosition.value
+            moveStartPosition - nowMovePosition.value
         } else {
           contentsBottomPosition.value = 0 + 'px'
         }
         contentsBottomPosition.value =
-          (moveStartPosition.value - nowMovePosition.value <= 0
-            ? moveStartPosition.value - nowMovePosition.value
+          (moveStartPosition - nowMovePosition.value <= 0
+            ? moveStartPosition - nowMovePosition.value
             : 0) + 'px'
       }
     }
     const touchEnd = () => {
       isTouch.value = false
       if (
-        -1 * (moveStartPosition.value - nowMovePosition.value) >
+        -1 * (moveStartPosition - nowMovePosition.value) >
         modalHeight.value * (1 / 8)
       ) {
         close()
@@ -178,7 +178,7 @@ export default defineComponent({
     const mouseUp = () => {
       isMouseDown.value = false
       if (
-        -1 * (moveStartPosition.value - nowMovePosition.value) >
+        -1 * (moveStartPosition - nowMovePosition.value) >
         modalHeight.value * (1 / 8)
       ) {
         close()
@@ -191,8 +191,8 @@ export default defineComponent({
       if (isMouseDown.value) {
         nowMovePosition.value = e.pageY
         contentsBottomPosition.value =
-          (moveStartPosition.value - nowMovePosition.value <= 0
-            ? moveStartPosition.value - nowMovePosition.value
+          (moveStartPosition - nowMovePosition.value <= 0
+            ? moveStartPosition - nowMovePosition.value
             : 0) + 'px'
       }
     }
@@ -200,19 +200,17 @@ export default defineComponent({
     const mouseDown = (e) => {
       modalQuery.value = document.querySelector('.modal_contents')
       modalHeight.value = modalQuery.value.getBoundingClientRect().height
-      moveStartPosition.value = e.pageY
+      moveStartPosition = e.pageY
       isMouseDown.value = true
       close()
     }
 
-    watch(
-      () => modal,
-      (newModal, oldModal) => {
-        if (newModal) {
-          open()
-        }
+    watch(modal, (newModal, oldModal) => {
+      console.log(newModal)
+      if (newModal) {
+        open()
       }
-    )
+    })
 
     return {
       isMouseDown,
