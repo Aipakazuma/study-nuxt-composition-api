@@ -17,23 +17,11 @@
         class="modal_contents"
         :style="{
           width: contentsWidth,
-          '--contents-height': fullscreen
-            ? '100%'
-            : modalHeight > 0
-            ? modalHeight + 'px'
-            : contentsHeight,
-          borderTopLeftRadius: fullscreen
-            ? '0px'
-            : borderTopRadius
-            ? borderTopRadius
-            : borderTopLeftRadius,
-          borderTopRightRadius: fullscreen
-            ? '0px'
-            : borderTopRadius
-            ? borderTopRadius
-            : borderTopRightRadius,
-          backgroundColor: dark ? darkContentsColor : contentsColor,
-          color: dark ? 'white' : 'back',
+          '--contents-height': getContentsHeight(),
+          borderTopLeftRadius: getBorderTopLeftRadius(),
+          borderTopRightRadius: getBorderTopRightRadius(),
+          backgroundColor: getBackgroundColor(),
+          color: getColor(),
           '--contents-bottom-position': contentsBottomPosition,
         }"
         @touchstart="touchStart"
@@ -55,7 +43,10 @@
 </template>
 
 <script>
-export default {
+import { defineComponent, toRefs, watch } from '@nuxtjs/composition-api'
+import { useSwipeHandler } from '~/handler/SwipeHandler'
+
+export default defineComponent({
   model: {
     prop: 'modal',
     event: 'change-modal',
@@ -106,109 +97,87 @@ export default {
       default: 'black',
     },
   },
-  data() {
+  setup(props, context) {
+    const {
+      modal,
+      dark,
+      fullscreen,
+      contentsHeight,
+      borderTopRadius,
+      borderTopLeftRadius,
+      borderTopRightRadius,
+      contentsColor,
+      darkContentsColor,
+    } = toRefs(props)
+
+    const {
+      open,
+      close,
+      touchStart,
+      touchMove,
+      touchEnd,
+      mouseUp,
+      mouseMove,
+      mouseDown,
+      modalHeight,
+      contentsBottomPosition,
+    } = useSwipeHandler(context)
+
+    const getContentsHeight = () => {
+      return fullscreen.value
+        ? '100%'
+        : modalHeight.value > 0
+        ? modalHeight.value + 'px'
+        : contentsHeight.value
+    }
+
+    const getBorderTopLeftRadius = () => {
+      return fullscreen.value
+        ? '0px'
+        : borderTopRadius.value
+        ? borderTopRadius.value
+        : borderTopLeftRadius.value
+    }
+
+    const getBorderTopRightRadius = () => {
+      return fullscreen.value
+        ? '0px'
+        : borderTopRadius.value
+        ? borderTopRadius.value
+        : borderTopRightRadius.value
+    }
+
+    const getBackgroundColor = () => {
+      return dark.value ? darkContentsColor.value : contentsColor.value
+    }
+
+    const getColor = () => {
+      return dark.value ? 'white' : 'back'
+    }
+
+    watch(modal, (newModal, oldModal) => {
+      if (newModal) {
+        open()
+      }
+    })
+
     return {
-      isMouseDown: false,
-      isTouch: false,
-      modalQuery: null,
-      modalHeight: 0,
-      contentsBottomPosition: 0,
-      startMovePosition: 0,
-      nowMovePosition: 0,
+      contentsBottomPosition,
+      touchStart,
+      touchMove,
+      touchEnd,
+      mouseUp,
+      mouseMove,
+      mouseDown,
+      close,
+      getContentsHeight,
+      getBorderTopLeftRadius,
+      getBorderTopRightRadius,
+      getBackgroundColor,
+      getColor,
     }
   },
-  watch: {
-    modal(newmodal) {
-      if (newmodal) {
-        this.open()
-      }
-    },
-  },
-  methods: {
-    // anim
-    open() {
-      this.init()
-      document.documentElement.style.overflowY = 'hidden'
-    },
-    close() {
-      this.isMouseDown = false
-      this.isTouch = false
-      document.documentElement.style.overflowY = 'auto'
-      this.$emit('change-modal', false)
-    },
-    // track
-    init() {
-      this.isMouseDown = false
-      this.isTouch = false
-      this.modalQuery = null
-      this.modalHeight = 0
-      this.contentsBottomPosition = 0
-      this.startMovePosition = 0
-      this.nowMovePosition = 0
-    },
-    touchStart(e) {
-      this.modalQuery = document.querySelector('.modal_contents')
-      this.modalHeight = this.modalQuery.getBoundingClientRect().height
-      if (this.modalQuery.scrollTop <= 0) {
-        this.moveStartPosition = e.touches[0].pageY
-        this.isTouch = true
-      }
-    },
-    touchMove(e) {
-      if (this.isTouch) {
-        this.nowMovePosition = e.touches[0].pageY
-        if (this.moveStartPosition - this.nowMovePosition <= 0) {
-          this.contentsBottomPosition =
-            this.moveStartPosition - this.nowMovePosition
-        } else {
-          this.contentsBottomPosition = 0 + 'px'
-        }
-        this.contentsBottomPosition =
-          (this.moveStartPosition - this.nowMovePosition <= 0
-            ? this.moveStartPosition - this.nowMovePosition
-            : 0) + 'px'
-      }
-    },
-    touchEnd() {
-      this.isTouch = false
-      if (
-        -1 * (this.moveStartPosition - this.nowMovePosition) >
-        this.modalHeight * (1 / 8)
-      ) {
-        this.close()
-      } else {
-        this.contentsBottomPosition = 0 + 'px'
-      }
-    },
-    mouseDown(e) {
-      this.modalQuery = document.querySelector('.modal_contents')
-      this.modalHeight = this.modalQuery.getBoundingClientRect().height
-      this.moveStartPosition = e.pageY
-      this.isMouseDown = true
-      this.close()
-    },
-    mouseMove(e) {
-      if (this.isMouseDown) {
-        this.nowMovePosition = e.pageY
-        this.contentsBottomPosition =
-          (this.moveStartPosition - this.nowMovePosition <= 0
-            ? this.moveStartPosition - this.nowMovePosition
-            : 0) + 'px'
-      }
-    },
-    mouseUp() {
-      this.isMouseDown = false
-      if (
-        -1 * (this.moveStartPosition - this.nowMovePosition) >
-        this.modalHeight * (1 / 8)
-      ) {
-        this.close()
-      } else {
-        this.contentsBottomPosition = 0 + 'px'
-      }
-    },
-  },
-}
+})
 </script>
 
 <style lang="scss">
