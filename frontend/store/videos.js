@@ -79,16 +79,10 @@ export const actions = {
     })
   },
   async incrementTargetUrl({ commit }, url) {
-    return new Promise((resolve, reject) => {
-      commit('incrementTargetUrl', url)
-      resolve(true)
-    })
+    commit('incrementTargetUrl', url)
   },
   async decrementTargetUrl({ commit }, url) {
-    return new Promise((resolve, reject) => {
-      commit('decrementTargetUrl', url)
-      resolve(true)
-    })
+    commit('decrementTargetUrl', url)
   },
 }
 
