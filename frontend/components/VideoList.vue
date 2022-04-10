@@ -3,7 +3,7 @@
     <div class="wrapper">
       <div v-for="v in store.getters['videos/getVideos']" :key="v.url">
         <div class="iframe-wrapper">
-          <Video :url="v.url" />
+          <Video :url="v.url" :key="v.key" />
           <ul class="actions">
             <li>
               <LikeButton :video="v" />
@@ -20,15 +20,36 @@
 </template>
 
 <script>
-import { defineComponent, useContext } from '@nuxtjs/composition-api'
+import { defineComponent, useContext, onMounted } from '@nuxtjs/composition-api'
 import Video from '~/components/Video.vue'
 import LikeButton from '~/components/LikeButton'
+import { DeviceSize } from '~/utils/DeviceSize'
 
 export default defineComponent({
   name: 'VideoList',
   components: { Video, LikeButton },
   setup() {
     const { store } = useContext()
+    const { innerHeight, getScrollTop } = DeviceSize()
+    let timeoutId = 0
+
+    onMounted(() => {
+      const wrapper = document.getElementsByClassName('wrapper')[0]
+      wrapper.addEventListener('scroll', (e) => {
+        clearTimeout(timeoutId)
+        timeoutId = setTimeout(function () {
+          const scrollTop = getScrollTop('wrapper')
+          console.log(scrollTop, innerHeight, scrollTop / innerHeight)
+          // TODO: 動画を停止したい
+          // iframeだと厳しそうなので、該当するdomを再読み込みしたい
+          // これそもそもどこが再生しているかわかるのかしら・・・・？
+          store.dispatch('videos/updateKey', { index: scrollTop / innerHeight })
+        }, 500)
+      })
+    })
+
+    // ユーザーが参照しているitemは何番目？
+    //
 
     return {
       store,

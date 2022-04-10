@@ -70,6 +70,16 @@ export const mutations = {
   decrementTargetUrl(state, { url }) {
     incrementDecrement(state, url, false)
   },
+  getApi(state) {
+    for (let i = 0; i < state.videos.length; i++) {
+      state.videos[i]['key'] = Date.now()
+    }
+  },
+  updateKey(state, { index }) {
+    console.log(state.videos[index])
+    state.videos[index].key = Date.now()
+    console.log(state.videos[index])
+  },
 }
 
 export const actions = {
@@ -83,6 +93,12 @@ export const actions = {
   },
   async decrementTargetUrl({ commit }, url) {
     commit('decrementTargetUrl', url)
+  },
+  async getApi({ commit }) {
+    commit('getApi')
+  },
+  async updateKey({ commit }, index) {
+    commit('updateKey', index)
   },
 }
 
