@@ -6,12 +6,8 @@
 </template>
 
 <script>
-import {
-  defineComponent,
-  ref,
-  toRefs,
-  useContext,
-} from '@nuxtjs/composition-api'
+import { defineComponent, toRefs } from '@nuxtjs/composition-api'
+import { useLikeClickHandler } from '~/handler/LikeClickHandler'
 
 export default defineComponent({
   props: {
@@ -21,20 +17,8 @@ export default defineComponent({
     },
   },
   setup(props, {}) {
-    const isClick = ref(false)
     const { video } = toRefs(props)
-    const { app } = useContext()
-    const click = () => {
-      isClick.value = !isClick.value
-      app.$like
-        .click(video.value.url, isClick.value)
-        .then((res) => console.log('result', res))
-        .catch((e) => {
-          console.log(e)
-          // もとに戻す
-          isClick.value = !isClick.value
-        })
-    }
+    const { click, isClick } = useLikeClickHandler(video)
     return {
       click,
       isClick,
