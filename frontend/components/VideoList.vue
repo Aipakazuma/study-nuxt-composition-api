@@ -6,8 +6,7 @@
           <Video :url="v.url" />
           <ul class="actions">
             <li>
-              <i class="el-icon-star-on"></i>
-              <span>{{ v.like }}</span>
+              <LikeButton :video="v" />
             </li>
             <li>
               <i class="el-icon-view"></i>
@@ -23,10 +22,11 @@
 <script>
 import { defineComponent, useContext } from '@nuxtjs/composition-api'
 import Video from '~/components/Video.vue'
+import LikeButton from '~/components/LikeButton'
 
 export default defineComponent({
   name: 'VideoList',
-  components: { Video },
+  components: { Video, LikeButton },
   setup() {
     const { store } = useContext()
 
@@ -66,13 +66,13 @@ iframe {
   bottom: 15%;
   color: #fff;
   list-style: none;
-  text-shadow: 0 1px 3px #000;
 }
 .actions > li:nth-child(1) {
   margin-bottom: 10px;
 }
 .actions > li > * {
   display: block;
+  text-shadow: 0 1px 3px #000;
 }
 .actions > li > i {
   font-size: 36px;

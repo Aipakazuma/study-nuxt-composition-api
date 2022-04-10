@@ -37,6 +37,21 @@ export const state = () => ({
   targetIndexes: [0, 1, 2],
 })
 
+const incrementDecrement = (state, url, flag) => {
+  const index = state.videos.findIndex((e) => {
+    return e.url === url
+  })
+  console.log(index, url, flag)
+  if (index < 0) {
+    return
+  }
+  if (flag) {
+    state.videos[index].like++
+  } else {
+    state.videos[index].like--
+  }
+}
+
 export const mutations = {
   unshiftIndexes(state) {
     const n = 3
@@ -49,12 +64,30 @@ export const mutations = {
     console.log(s)
     state.targetIndexes = s
   },
+  incrementTargetUrl(state, { url }) {
+    incrementDecrement(state, url, true)
+  },
+  decrementTargetUrl(state, { url }) {
+    incrementDecrement(state, url, false)
+  },
 }
 
 export const actions = {
   async videoShift({ commit, state }) {
     return new Promise((resolve, reject) => {
       commit('unshiftIndexes')
+    })
+  },
+  async incrementTargetUrl({ commit }, url) {
+    return new Promise((resolve, reject) => {
+      commit('incrementTargetUrl', url)
+      resolve(true)
+    })
+  },
+  async decrementTargetUrl({ commit }, url) {
+    return new Promise((resolve, reject) => {
+      commit('decrementTargetUrl', url)
+      resolve(true)
     })
   },
 }
