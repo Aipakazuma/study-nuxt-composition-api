@@ -2,12 +2,9 @@ import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import { formatJSONResponse } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
 
-import schema from './schema';
-
-const hello: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
+const hello: ValidatedEventAPIGatewayProxyEvent<void> = async () => {
   return formatJSONResponse({
-    message: `Hello ${event.body.name}, welcome to the porn Serverless world!`,
-    event,
+    message: `Hello. welcome to the porn Serverless world!`
   });
 };
 
