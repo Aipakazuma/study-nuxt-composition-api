@@ -6,7 +6,7 @@ import getPornhubNewPosts from '@functions/get-pornhub-new-posts';
 const serverlessConfiguration: AWS = {
   service: 'backend-prj',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild'],
+  plugins: ['serverless-esbuild', 'serverless-offline'],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',

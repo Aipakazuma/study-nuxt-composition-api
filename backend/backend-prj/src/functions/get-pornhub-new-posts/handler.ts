@@ -17,9 +17,8 @@ const hello: ValidatedEventAPIGatewayProxyEvent<void> = async () => {
   }).toArray();
 
   return formatJSONResponse({
-    message: `Hello.`,
-    dataIdList: JSON.stringify(resArray)
-  });
+    dataIdList: resArray
+    });
 };
 
 export const main = middyfy(hello);
