@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { ref, useRouter } from '@nuxtjs/composition-api'
+import { ref, useRouter, useContext } from '@nuxtjs/composition-api'
 import SwipeModal from '../components/SwipeModal.vue'
 export default {
   components: { SwipeModal },
@@ -48,6 +48,9 @@ export default {
       router.push(link)
       modal.value = false
     }
+
+    const { store } = useContext()
+    store.dispatch('videos/getVideosId')
     return {
       modal,
       menuClick,

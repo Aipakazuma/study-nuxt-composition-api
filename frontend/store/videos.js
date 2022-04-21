@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export const state = () => ({
   // TODO: child?のstoreをつくって突っ込みたいがやり方がわからない
   videos: [
@@ -53,6 +55,15 @@ const incrementDecrement = (state, url, flag) => {
 }
 
 export const mutations = {
+  getVideosId(state, { videosId }) {
+    console.log('video-', videosId)
+    state.videos = videosId.map((videoId) => {
+      return {
+        url: `https://www.xvideos.com/embedframe/${videoId}`,
+        like: 0,
+      }
+    })
+  },
   unshiftIndexes(state) {
     const n = 3
     const s = state.targetIndexes
@@ -73,6 +84,22 @@ export const mutations = {
 }
 
 export const actions = {
+  async getVideosId({ commit }) {
+    const headers = {
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Access-Control-Allow-Origin': 'http://localhost/',
+    }
+    const url =
+      'https://vol33xelnc.execute-api.us-west-2.amazonaws.com/dev/get-pornhub-new-posts'
+    axios
+      .get(url, headers)
+      .then((res) => {
+        commit('getVideosId', { videosId: res.data.dataIdList })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
   async videoShift({ commit, state }) {
     return new Promise((resolve, reject) => {
       commit('unshiftIndexes')
