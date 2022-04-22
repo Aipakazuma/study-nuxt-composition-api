@@ -1,6 +1,5 @@
 # backend
 
-
 ## init
 
 ```
@@ -28,14 +27,14 @@ hogehoge
 ## add function
 
 テンプレコピーしたほうが早そう
+
 ```
 $ cd backend/backend-prj/
 $ cp -rf src/functions/hello src/functions/hogehoge
 ```
 
-- src/functions/hogehoge/index.ts: http methodやpathの修正
-- serverless.ts: functionsへ追加
-
+- src/functions/hogehoge/index.ts: http method や path の修正
+- serverless.ts: functions へ追加
 
 ## 確認
 
@@ -45,7 +44,6 @@ $ sls invoke local -f hello  --path src/functions/hello/mock.json | jq
 
 ## deploy
 
-
 ```
 $ sls deploy --verbose --region us-west-2
 ```
@@ -53,5 +51,11 @@ $ sls deploy --verbose --region us-west-2
 ## 削除
 
 ```
-$ sls remove
+$ sls remove --region us-west-2
+```
+
+## 作成した API 等の情報の確認
+
+```
+$ sls info --region us-west-2
 ```
