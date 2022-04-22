@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useContext } from '@nuxtjs/composition-api'
 
 export const state = () => ({
   // TODO: child?のstoreをつくって突っ込みたいがやり方がわからない
@@ -85,14 +86,20 @@ export const mutations = {
 
 export const actions = {
   async getVideosId({ commit }) {
-    const headers = {
-      'Content-Type': 'application/json;charset=UTF-8',
-      'Access-Control-Allow-Origin': 'http://localhost/',
+    const { $config } = useContext()
+    const axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        'X-API-KEY': $config.API_KEY,
+        withCredentials: true,
+      },
     }
-    const url =
-      'https://vol33xelnc.execute-api.us-west-2.amazonaws.com/dev/get-pornhub-new-posts'
+    // const url =
+    // 'https://vol33xelnc.execute-api.us-west-2.amazonaws.com/dev/get-pornhub-new-posts'
+    const url = `${$config.BASE_URL}:${$config.OFFLINE_PORT}/dev/get-pornhub-new-posts`
+    console.log(axiosConfig)
     axios
-      .get(url, headers)
+      .get(url, axiosConfig)
       .then((res) => {
         commit('getVideosId', { videosId: res.data.dataIdList })
       })

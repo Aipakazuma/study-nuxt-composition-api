@@ -7,6 +7,8 @@ services:
     environment:
       HOST: 0.0.0.0
       PORT: 80
+      WS_PORT: 81
+      BASE_URL: http://localhost
     ports:
       - 80:80
       - 81:81
@@ -19,6 +21,8 @@ services:
       context: ./backend
     volumes:
       - ./backend:/app
-    tty: true
+    ports:
+      - ${OFFLINE_PORT}:${OFFLINE_PORT}
+    command: bash -c 'cd /app/backend-prj/ && sls offline start'
     env_file:
       - .env

@@ -2,6 +2,9 @@ const appTitle = '流し動画'
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
+  server: {
+    port: process.env.PORT,
+  },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -106,8 +109,17 @@ export default {
     server: {
       hmr: {
         protocol: 'ws',
-        port: 81,
+        port: process.env.WS_PORT,
       },
     },
+  },
+
+  publicRuntimeConfig: {
+    API_KEY: process.env.API_KEY,
+    BASE_URL: process.env.BASE_URL,
+    OFFLINE_PORT: process.env.OFFLINE_PORT,
+    // axios: {
+    //   browserBaseURL: process.env.BROWSER_BASE_URL,
+    // },
   },
 }

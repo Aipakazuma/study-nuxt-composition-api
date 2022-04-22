@@ -14,7 +14,10 @@ const serverlessConfiguration: AWS = {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,
       apiKeys: [
-        { name: 'free-key', }
+        {
+          name: 'free-key',
+          value: process.env.API_KEY
+        }
       ],
       usagePlan: {
         quota: {
@@ -46,6 +49,11 @@ const serverlessConfiguration: AWS = {
       platform: 'node',
       concurrency: 10,
     },
+    'serverless-offline': {
+      host: '0.0.0.0',
+      httpPort: process.env.OFFLINE_PORT,
+      apiKey: process.env.API_KEY
+    }
   },
 };
 
