@@ -6,13 +6,26 @@ import getPornhubNewPosts from '@functions/get-pornhub-new-posts';
 const serverlessConfiguration: AWS = {
   service: 'backend-prj',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild'],
+  plugins: ['serverless-esbuild', 'serverless-offline'],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
     apiGateway: {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,
+      apiKeys: [
+        { name: 'free-key', }
+      ],
+      usagePlan: {
+        quota: {
+          limit: 1000,
+          period: 'MONTH'
+        },
+        throttle: {
+          burstLimit: 200,
+          rateLimit: 100
+        }
+      }
     },
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',

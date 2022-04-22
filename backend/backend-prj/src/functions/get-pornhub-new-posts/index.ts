@@ -6,8 +6,10 @@ export default {
     {
       http: {
         method: 'get',
-        path: 'get-pornhub-new-posts'
-      },
+        path: 'get-pornhub-new-posts',
+        cors: true,
+        private: true
+      }
     },
   ],
 };
