@@ -1,0 +1,28 @@
+services:
+  frontend:
+    image: node:17.5.0-slim
+    volumes:
+      - ./frontend:/app:delegated
+    working_dir: /app
+    environment:
+      HOST: 0.0.0.0
+      PORT: 80
+      WS_PORT: 81
+      BASE_URL: http://localhost
+    ports:
+      - 80:80
+      - 81:81
+    command: bash -c 'npm install && yarn dev --port 80 --hostname 0'
+    env_file:
+      - .env
+
+  backend:
+    build:
+      context: ./backend
+    volumes:
+      - ./backend:/app
+    ports:
+      - ${OFFLINE_PORT}:${OFFLINE_PORT}
+    command: bash -c 'cd /app/backend-prj/ && sls offline start'
+    env_file:
+      - .env
