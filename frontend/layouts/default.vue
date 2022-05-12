@@ -63,6 +63,7 @@ export default {
 <style scoped>
 #body {
   position: relative;
+  height: 100vh;
 }
 #menu a {
   display: block;
